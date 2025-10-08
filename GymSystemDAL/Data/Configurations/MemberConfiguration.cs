@@ -14,7 +14,7 @@ namespace GymSystemDAL.Data.Configurations
         public new void Configure(EntityTypeBuilder<Member> builder)
         {
             builder.Property(X => X.CreatedAt)
-                .HasColumnType("JoinDate")
+                .HasColumnName("JoinDate")
                 .HasDefaultValueSql("getdate()");
 
             base.Configure(builder);

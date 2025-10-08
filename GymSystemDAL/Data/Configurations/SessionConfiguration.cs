@@ -18,6 +18,18 @@ namespace GymSystemDAL.Data.Configurations
                 Tb.HasCheckConstraint("SessionCapacityCheck", "Capacity Between 1 and 25");
                 Tb.HasCheckConstraint("SessionEndDateCheck", "EndDate > StartDate");
             });
+
+
+            builder.HasOne(s => s.SessionCategory)
+                   .WithMany(c => c.Sessions)
+                   .HasForeignKey(s => s.CategoryId);
+
+            builder.HasOne(s => s.SessionTrainer)
+                .WithMany(X => X.TrainerSession)
+                .HasForeignKey(X => X.TrainerId);
+
+
+
         }
     }
 }

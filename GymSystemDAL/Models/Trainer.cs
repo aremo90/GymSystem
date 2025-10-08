@@ -12,5 +12,14 @@ namespace GymSystemDAL.Models
         // CreatedAd will be inherited from BaseEntity and it name will be altered to HireDate
         public Specialites Specialites { get; set; }
 
+
+
+        #region 1 : M Between Session and Trainer
+        //fk
+
+
+        public ICollection<Session> TrainerSession { get; set; }
+        #endregion
+
     }
 }
