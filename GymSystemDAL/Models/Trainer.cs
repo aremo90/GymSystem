@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GymSystemDAL.Models
 {
-    internal class Trainer : GymUser
+    public class Trainer : GymUser
     {
         // CreatedAd will be inherited from BaseEntity and it name will be altered to HireDate
         public Specialites Specialites { get; set; }

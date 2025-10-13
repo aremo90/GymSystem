@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GymSystemDAL.Models
 {
-    internal class GymUser : BaseEntity
+    public abstract class GymUser : BaseEntity
     {
         public string Name { get; set; } = null!;
         public string Email { get; set; } = null!;
@@ -20,7 +20,7 @@ namespace GymSystemDAL.Models
 
     }
     [Owned]
-    class Address ()
+    public class Address ()
     {
         public int BuildingNumber { get; set; }
         public string Street { get; set; } = null!;

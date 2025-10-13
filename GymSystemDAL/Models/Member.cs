@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GymSystemDAL.Models
 {
-    internal class Member : GymUser
+    public class Member : GymUser
     {
         // CreatedAd will be inherited from BaseEntity and it name will be altered to JoinDate
         public string? Photo { get; set; }
