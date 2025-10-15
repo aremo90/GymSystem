@@ -1,3 +1,4 @@
+using GymSystemBLL;
 using GymSystemDAL.Data.Context;
 using GymSystemDAL.Data.DataSeed;
 using GymSystemDAL.Repositroies.Classes;
@@ -31,7 +32,9 @@ namespace GymSystemPL
             builder.Services.AddScoped(typeof(IGenericRepository<>) , typeof(GenericRepository<>));
             builder.Services.AddScoped<IPlanRepoository, PlanRepository>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            
+            builder.Services.AddScoped<ISessionRepoository, SessionRepoository>();
+            builder.Services.AddAutoMapper(X => X.AddProfile(new MappingProfiles()));
+
 
             var app = builder.Build();
 

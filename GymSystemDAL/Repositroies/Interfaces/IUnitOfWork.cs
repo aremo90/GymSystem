@@ -11,5 +11,7 @@ namespace GymSystemDAL.Repositroies.Interfaces
     {
         IGenericRepository<TEntity> GetRepository<TEntity>() where TEntity : BaseEntity, new();
         int SaveChanges();
+
+        ISessionRepoository SessionRepoository { get;}
     }
 }

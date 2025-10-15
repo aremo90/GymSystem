@@ -15,10 +15,14 @@ namespace GymSystemDAL.Repositroies.Classes
         private readonly Dictionary<Type , object> _repositiores = new Dictionary<Type , object>();
         private readonly GymSystemDbContext _dbContext;
 
-        public UnitOfWork(GymSystemDbContext dbContext)
+        public UnitOfWork(GymSystemDbContext dbContext , ISessionRepoository sessionRepoository)
         {
             _dbContext = dbContext;
+            SessionRepoository = sessionRepoository;
         }
+
+        public ISessionRepoository SessionRepoository { get; }
+
         public IGenericRepository<TEntity> GetRepository<TEntity>() where TEntity : BaseEntity, new()
         {
             var EntityType = typeof(TEntity);
