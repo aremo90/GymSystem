@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GymSystemBLL.ViewModels
+namespace GymSystemBLL.ViewModels.MemberViewModels
 {
     internal class MemberViewModel
     {

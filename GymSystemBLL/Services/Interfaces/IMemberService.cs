@@ -1,4 +1,4 @@
-﻿using GymSystemBLL.ViewModels;
+﻿using GymSystemBLL.ViewModels.MemberViewModels;
 using GymSystemDAL.Models;
 using System;
 using System.Collections.Generic;

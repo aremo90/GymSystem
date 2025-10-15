@@ -1,4 +1,4 @@
-﻿using GymSystemDAL.Models;
+﻿using GymSystemDAL.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,12 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GymSystemBLL.ViewModels
+namespace GymSystemBLL.ViewModels.TrainerViewModels
 {
-    internal class MemberToUpdateViewModel
+    public class TrainerToUpdateViewModel
     {
         public string Name { get; set; }
-        public string Photo { get; set; }
 
         [Required(ErrorMessage = "Email is Required !")]
         [EmailAddress(ErrorMessage = "Invalid Email Address.")]
@@ -27,19 +26,19 @@ namespace GymSystemBLL.ViewModels
 
 
         [Required(ErrorMessage = "Required")]
-        [Range(1, 9000, ErrorMessage = "BuildingNumber must be between 1 and 300.")]
-        public int BuildingNumber { get; set; }
-
-
-
-        [Required(ErrorMessage = "Required")]
         [StringLength(30, MinimumLength = 2, ErrorMessage = "Street must be between 2 and 30 characters.")]
         public string Street { get; set; } = null!;
 
+        [Required(ErrorMessage = "Required")]
+        [Range(1, 9000, ErrorMessage = "BuildingNumber must be between 1 and 300.")]
+        public int BuildingNumber { get; set; }
 
         [Required(ErrorMessage = "Required")]
         [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "City can only contain letters and spaces.")]
         public string City { get; set; } = null!;
 
+
+        [Required(ErrorMessage = "At Leaset one Specialty must be assigned !")]
+        public Specialites Specialties { get; set; }
     }
 }

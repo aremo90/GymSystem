@@ -10,7 +10,7 @@ namespace GymSystemDAL.Models
     public class Trainer : GymUser
     {
         // CreatedAd will be inherited from BaseEntity and it name will be altered to HireDate
-        public Specialites Specialites { get; set; }
+        public Specialites Specialties { get; set; }
 
 
 

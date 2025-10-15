@@ -1,5 +1,5 @@
 ﻿using GymSystemBLL.Services.Interfaces;
-using GymSystemBLL.ViewModels;
+using GymSystemBLL.ViewModels.MemberViewModels;
 using GymSystemDAL.Models;
 using GymSystemDAL.Repositroies.Interfaces;
 using System;
