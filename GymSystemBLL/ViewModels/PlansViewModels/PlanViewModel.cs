@@ -4,21 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GymSystemDAL.Models
+namespace GymSystemBLL.ViewModels.PlansViewModels
 {
-    public class Plan : BaseEntity
+    public class PlanViewModel
     {
+        public int ID { get; set; }
         public string Name { get; set; } = null!;
         public string Description { get; set; } = null!;
         public int DurationDays { get; set; }
         public decimal Price { get; set; }
         public bool IsActive { get; set; }
-
-
-        #region M : M between Member and Plan
-
-        public ICollection<Membership> Plans { get; set; }
-
-        #endregion
     }
 }
