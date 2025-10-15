@@ -1,6 +1,6 @@
 ﻿using GymSystemDAL.Data.Context;
-using GymSystemDAL.Data.Repositroies.Interfaces;
 using GymSystemDAL.Models;
+using GymSystemDAL.Repositroies.Interfaces;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GymSystemDAL.Data.Repositroies.Classes
+namespace GymSystemDAL.Repositroies.Classes
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity, new()
     {
@@ -18,20 +18,15 @@ namespace GymSystemDAL.Data.Repositroies.Classes
         {
             _dbContext = dbContext;
         }
-        public int Add(TEntity entity)
+        public void Add(TEntity entity)
         {
             _dbContext.Set<TEntity>().Add(entity);
-            return _dbContext.SaveChanges();
+            
         }
-
-        public int Delete(int id)
+        public void Delete(TEntity entity)
         {
-            var entity = _dbContext.Set<TEntity>().Find(id);
-            if (entity == null) return 0;
-            _dbContext.Set<TEntity>().Remove(entity);
-            return _dbContext.SaveChanges();
+            _dbContext.Set<TEntity>().Find(entity); 
         }
-
         public IEnumerable<TEntity> GetAll(Func<TEntity, bool>? condition = null)
         {
             if (condition == null)
@@ -39,15 +34,10 @@ namespace GymSystemDAL.Data.Repositroies.Classes
             else
                 return _dbContext.Set<TEntity>().Where(condition).ToList();
         }
-
         public TEntity? GetByID(int id) => _dbContext.Set<TEntity>().Find(id);
-
-        public int Update(TEntity entity)
-        {
-            var existingEntity = _dbContext.Set<TEntity>().Find(entity.Id);
-            if (existingEntity == null) return 0;
-            _dbContext.Set<TEntity>().Update(entity);
-            return _dbContext.SaveChanges();
+        public void Update(TEntity entity)
+        {                
+          _dbContext.Set<TEntity>().Update(entity);          
         }
     }
 }

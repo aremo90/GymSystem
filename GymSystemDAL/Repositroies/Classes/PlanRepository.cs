@@ -1,5 +1,4 @@
 ﻿using GymSystemDAL.Data.Context;
-using GymSystemDAL.Data.Repositroies.Interfaces;
 using GymSystemDAL.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -7,8 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GymSystemDAL.Repositroies.Interfaces;
 
-namespace GymSystemDAL.Data.Repositroies.Classes
+namespace GymSystemDAL.Repositroies.Classes
 {
     public class PlanRepository : IPlanRepoository
     {

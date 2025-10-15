@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GymSystemDAL.Data.Repositroies.Interfaces
+namespace GymSystemDAL.Repositroies.Interfaces
 {
     public interface IPlanRepoository
     {

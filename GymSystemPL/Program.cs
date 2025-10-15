@@ -1,6 +1,6 @@
 using GymSystemDAL.Data.Context;
-using GymSystemDAL.Data.Repositroies.Classes;
-using GymSystemDAL.Data.Repositroies.Interfaces;
+using GymSystemDAL.Repositroies.Classes;
+using GymSystemDAL.Repositroies.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -29,6 +29,7 @@ namespace GymSystemPL
 
             builder.Services.AddScoped(typeof(IGenericRepository<>) , typeof(GenericRepository<>));
             builder.Services.AddScoped<IPlanRepoository, PlanRepository>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             var app = builder.Build();
 
