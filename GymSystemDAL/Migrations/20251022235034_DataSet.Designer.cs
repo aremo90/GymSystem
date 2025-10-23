@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace GymSystemDAL.Data.Migrations
+namespace GymSystemDAL.Migrations
 {
     [DbContext(typeof(GymSystemDbContext))]
-    [Migration("20251008214104_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20251022235034_DataSet")]
+    partial class DataSet
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -123,7 +123,7 @@ namespace GymSystemDAL.Data.Migrations
 
                     b.ToTable("Members", t =>
                         {
-                            t.HasCheckConstraint("GymUserValidEmailCheck", "Email Like '_%@_%._&' ");
+                            t.HasCheckConstraint("GymUserValidEmailCheck", "Email Like '_%@_%._%' ");
 
                             t.HasCheckConstraint("GymUserValidPhoneCheck", "Phone Like '01%' and Phone Not Like '%[^0-9]'");
                         });
@@ -304,7 +304,7 @@ namespace GymSystemDAL.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Specialites")
+                    b.Property<int>("Specialties")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")

@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace GymSystemBLL.ViewModels.MemberViewModels
 {
-    internal class MemberToUpdateViewModel
+    public class MemberToUpdateViewModel
     {
         public string Name { get; set; }
-        public string Photo { get; set; }
+        public string? Photo { get; set; }
 
         [Required(ErrorMessage = "Email is Required !")]
         [EmailAddress(ErrorMessage = "Invalid Email Address.")]

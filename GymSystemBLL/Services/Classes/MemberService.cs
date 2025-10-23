@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GymSystemBLL.Services.Classes
 {
-    internal class MemberService : IMemberService
+    public class MemberService : IMemberService
     {
         #region DB Connect
 
@@ -165,8 +165,16 @@ namespace GymSystemBLL.Services.Classes
             try
             {
                 var MemberRepo = _unitOfWork.GetRepository<Member>();
-                if (IsEmailExists(updatedMember.Email) || IsPhoneExists(updatedMember.Phone))
-                    return false;
+                //if (IsEmailExists(updatedMember.Email) || IsPhoneExists(updatedMember.Phone))
+                //    return false;
+
+                var emailExists = _unitOfWork.GetRepository<Member>()
+                    .GetAll(X => X.Email == updatedMember.Email && X.Id != memberId);
+
+                var phoneExists = _unitOfWork.GetRepository<Member>()
+                    .GetAll(X => X.Phone == updatedMember.Phone && X.Id != memberId);
+
+                if (emailExists.Any() || phoneExists.Any()) return false;
 
                 var member = MemberRepo.GetByID(memberId);
                 if (member is null) return false;
@@ -202,15 +210,15 @@ namespace GymSystemBLL.Services.Classes
             if (HasActiveMemberSeesions) return false;
 
             // Remove
-            var Membership = MemberShipRepo.GetAll(X => X.MemberId == memberId);
+            var Memberships = MemberShipRepo.GetAll(X => X.MemberId == memberId);
             try
             {
-                if (Membership.Any())
+                if (Memberships.Any())
                 {
-                    foreach (var member in Membership)
+                    foreach (var Membership in Memberships)
                     {
                         //_MemberShipRepo.Delete(member.MemberId);
-                        MemberShipRepo.Delete(member);
+                        MemberShipRepo.Delete(Membership);
                     }
                 }
                 MemberRepo.Delete(Member);
@@ -220,7 +228,6 @@ namespace GymSystemBLL.Services.Classes
             }
             catch (Exception)
             {
-
                 return false;
             }
         }
