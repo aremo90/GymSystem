@@ -1,8 +1,11 @@
 using GymSystemBLL;
+using GymSystemBLL.Services.Classes;
+using GymSystemBLL.Services.Interfaces;
 using GymSystemDAL.Data.Context;
 using GymSystemDAL.Data.DataSeed;
 using GymSystemDAL.Repositroies.Classes;
 using GymSystemDAL.Repositroies.Interfaces;
+using GymSystemPL.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -34,6 +37,7 @@ namespace GymSystemPL
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<ISessionRepoository, SessionRepoository>();
             builder.Services.AddAutoMapper(X => X.AddProfile(new MappingProfiles()));
+            builder.Services.AddScoped<IMemberService, MemberService>();
 
 
             var app = builder.Build();

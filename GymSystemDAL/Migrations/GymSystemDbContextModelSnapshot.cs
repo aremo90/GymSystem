@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace GymSystemDAL.Data.Migrations
+namespace GymSystemDAL.Migrations
 {
     [DbContext(typeof(GymSystemDbContext))]
     partial class GymSystemDbContextModelSnapshot : ModelSnapshot
@@ -120,7 +120,7 @@ namespace GymSystemDAL.Data.Migrations
 
                     b.ToTable("Members", t =>
                         {
-                            t.HasCheckConstraint("GymUserValidEmailCheck", "Email Like '_%@_%._&' ");
+                            t.HasCheckConstraint("GymUserValidEmailCheck", "Email Like '_%@_%._%' ");
 
                             t.HasCheckConstraint("GymUserValidPhoneCheck", "Phone Like '01%' and Phone Not Like '%[^0-9]'");
                         });
@@ -301,7 +301,7 @@ namespace GymSystemDAL.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Specialites")
+                    b.Property<int>("Specialties")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")

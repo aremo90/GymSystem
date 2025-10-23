@@ -35,15 +35,15 @@ namespace GymSystemDAL.Data.DataSeed
             }
 			catch (Exception)
 			{
-
 				throw;
 			}
         }
 		private static List<T> LoadDataFromJsonFile<T>(string FileName)
 		{
 			var FilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Files", FileName);
+			//var FilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Files", FileName);
 
-			if (File.Exists(FilePath))
+            if (!File.Exists(FilePath))
 			{
 				throw new FileNotFoundException("File not found", FilePath);
             }

@@ -23,9 +23,16 @@ namespace GymSystemDAL.Repositroies.Classes
             _dbContext.Set<TEntity>().Add(entity);
             
         }
+        // C#
         public void Delete(TEntity entity)
         {
-            _dbContext.Set<TEntity>().Find(entity); 
+            // Simple and correct: ensure the entity is attached, then remove it.
+            var set = _dbContext.Set<TEntity>();
+            if (_dbContext.Entry(entity).State == Microsoft.EntityFrameworkCore.EntityState.Detached)
+            {
+                set.Attach(entity);
+            }
+            set.Remove(entity);
         }
         public IEnumerable<TEntity> GetAll(Func<TEntity, bool>? condition = null)
         {
