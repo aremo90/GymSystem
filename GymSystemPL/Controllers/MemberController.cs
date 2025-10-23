@@ -2,6 +2,7 @@
 using GymSystemBLL.ViewModels.MemberViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
 
 namespace GymSystemPL.Controllers
 {
@@ -108,7 +109,7 @@ namespace GymSystemPL.Controllers
             return View(Member);
         }
         [HttpPost]
-        public ActionResult MemberEdit([FromRoute]int id , MemberToUpdateViewModel MemberToUpdate) 
+        public ActionResult MemberEdit([FromRoute] int id, MemberToUpdateViewModel MemberToUpdate)
         {
             if (!ModelState.IsValid)
             {
@@ -116,17 +117,53 @@ namespace GymSystemPL.Controllers
                 return View(MemberToUpdate);
             }
 
-            var Result = _memberService.UpdateMember(id , MemberToUpdate);
-            if (Result) {
+            var Result = _memberService.UpdateMember(id, MemberToUpdate);
+            if (Result)
+            {
                 TempData["SuccessMessage"] = "Member Created Successfully";
             }
-            else 
+            else
             {
                 TempData["ErrorMessage"] = "Failed to Create Member";
             }
             return RedirectToAction(nameof(Index));
         }
+        #region Debug
 
+        //[HttpPost]
+        //public ActionResult MemberEdit([FromRoute] int id, MemberToUpdateViewModel MemberToUpdate)
+        //        {
+        //            if (!ModelState.IsValid)
+        //            {
+        //                // Log model state errors for diagnosis
+        //                var errors = ModelState
+        //                    .Where(kvp => kvp.Value.Errors.Count > 0)
+        //                    .Select(kvp => new
+        //                    {
+        //                        Key = kvp.Key,
+        //                        Errors = kvp.Value.Errors.Select(e => e.ErrorMessage + (e.Exception != null ? " | Ex: " + e.Exception.Message : ""))
+        //                    });
+
+        //                foreach (var e in errors)
+        //                {
+        //                    Console.WriteLine($"{e.Key}: {string.Join(", ", e.Errors)}");
+        //                }
+        //                return View(MemberToUpdate);
+        //            }
+
+        //            var Result = _memberService.UpdateMember(id, MemberToUpdate);
+        //            if (Result)
+        //            {
+        //                TempData["SuccessMessage"] = "Member Created Successfully";
+        //            }
+        //            else
+        //            {
+        //                TempData["ErrorMessage"] = "Failed to Create Member";
+        //            }
+        //            return RedirectToAction(nameof(Index));
+        //        }
+
+        #endregion
         #endregion
 
         #region Delete Member

@@ -34,13 +34,11 @@
                                             <span asp-validation-for="Phone" class="text-danger"></span>
                                         </div>
                                     </div>
-
                                     <div class="col-6">
                                         <div class="p-3 bg-light rounded">
                                             <small class="text-muted d-block mb-1">Building Number</small>
-                                            <input asp-for="BuildingNumber" class="form-control" />
-                                            <span asp-validation-for="BuildingNumber"
-                                                  class="text-danger"></span>
+                                            <input asp-for="BuildingNumber" type="number" min="1" class="form-control" />
+                                            <span asp-validation-for="BuildingNumber" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-6">
@@ -76,10 +74,9 @@
 
 
 
+
+
 @section Scripts
 {
-    @* <partial name="_ValidationScriptsPartial" /> *@
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
-
+    <partial name="_ValidationScriptsPartial" />
 }

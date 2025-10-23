@@ -11,7 +11,7 @@ namespace GymSystemBLL.ViewModels.MemberViewModels
     public class MemberToUpdateViewModel
     {
         public string Name { get; set; }
-        public string Photo { get; set; }
+        public string? Photo { get; set; }
 
         [Required(ErrorMessage = "Email is Required !")]
         [EmailAddress(ErrorMessage = "Invalid Email Address.")]
