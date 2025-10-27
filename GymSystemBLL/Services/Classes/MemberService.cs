@@ -244,8 +244,5 @@ namespace GymSystemBLL.Services.Classes
         }
 
         #endregion
-
-
-
     }
 }

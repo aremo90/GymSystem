@@ -1,4 +1,5 @@
 ﻿using GymSystemBLL.ViewModels.SeesionsViewModel;
+using GymSystemDAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GymSystemBLL.Services.Interfaces
 {
-    internal interface ISessionService
+    public interface ISessionService
     {
         IEnumerable<SessionViewModel> GetAllSessions();
         SessionViewModel GetSessionById(int id);
@@ -19,7 +20,8 @@ namespace GymSystemBLL.Services.Interfaces
 
         bool DeleteSession(int id);
 
-
+        IEnumerable<TrainerSelectViewModel> GetTrainerForSessions();
+        IEnumerable<CategorySelectViewModel> GetCategoryForSessions();
 
     }
 }

@@ -137,17 +137,27 @@ namespace GymSystemBLL.Services.Classes
 
             }
         }
+        public IEnumerable<TrainerSelectViewModel> GetTrainerForSessions()
+        {
+            var trains = _unitOfWork.GetRepository<Trainer>().GetAll();
+            return _Mapper.Map<IEnumerable<TrainerSelectViewModel>>(trains);
+        }
 
+        public IEnumerable<CategorySelectViewModel> GetCategoryForSessions()
+        { 
+            var categories = _unitOfWork.GetRepository<Category>().GetAll();
+            return _Mapper.Map<IEnumerable<CategorySelectViewModel>>(categories);
+        }
 
         #region Helper
 
         private bool IsTrainerExist(int TrainerId)
         {
-            return _unitOfWork.GetRepository<Trainer>().GetByID(TrainerId) is null;
+            return _unitOfWork.GetRepository<Trainer>().GetByID(TrainerId) is not null;
         }
         private bool IsCategoryExist(int CategoryId)
         {
-            return _unitOfWork.GetRepository<Category>().GetByID(CategoryId) is null;
+            return _unitOfWork.GetRepository<Category>().GetByID(CategoryId) is not null;
         }
         private bool IsValidDateRange(DateTime StartDate , DateTime EndDate)
         {
@@ -183,6 +193,8 @@ namespace GymSystemBLL.Services.Classes
 
             return true;
         }
+
+
 
 
 
