@@ -1,4 +1,5 @@
-﻿using GymSystemBLL.Services.Interfaces;
+﻿using GymSystemBLL.Services.AttachmentService;
+using GymSystemBLL.Services.Interfaces;
 using GymSystemBLL.ViewModels.MemberViewModels;
 using GymSystemDAL.Models;
 using GymSystemDAL.Repositroies.Interfaces;
@@ -15,10 +16,13 @@ namespace GymSystemBLL.Services.Classes
         #region DB Connect
 
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IAttachmentService _attachmentService;
+
         //Conection to db
-        public MemberService(IUnitOfWork unitOfWork)
+        public MemberService(IUnitOfWork unitOfWork , IAttachmentService attachmentService)
         {
             _unitOfWork = unitOfWork;
+            _attachmentService = attachmentService;
         }
         #endregion
         #region CRUD Methods
@@ -66,11 +70,15 @@ namespace GymSystemBLL.Services.Classes
             try
             {
                 // Check if phone or email are unique
-                if (IsEmailExists(createdMember.Email) || IsPhoneExists(createdMember.Phone))
-                    return false;
+                if (IsEmailExists(createdMember.Email) || IsPhoneExists(createdMember.Phone)) return false;
+
+                var PhotoName = _attachmentService.Upload("members", createdMember.PhotoFile);
+
+                if (PhotoName is null) return false;
 
                 var member = new Member()
                 {
+                    Photo = PhotoName,
                     Name = createdMember.Name,
                     Email = createdMember.Email,
                     Phone = createdMember.Phone,
@@ -91,7 +99,14 @@ namespace GymSystemBLL.Services.Classes
                     }
                 };
                 _unitOfWork.GetRepository<Member>().Add(member);
-                return _unitOfWork.SaveChanges() > 0;
+                var isCreated = _unitOfWork.SaveChanges() > 0;
+
+                if (!isCreated)
+                {
+                    _attachmentService.Delete(PhotoName, "members");
+                    return false;
+                }
+                else return isCreated;
             }
             catch (Exception)
             {
@@ -223,7 +238,11 @@ namespace GymSystemBLL.Services.Classes
                 }
                 MemberRepo.Delete(Member);
 
-                return _unitOfWork.SaveChanges() > 0;
+                var IsDeleted = _unitOfWork.SaveChanges() > 0;
+                if (IsDeleted)
+                    _attachmentService.Delete(Member.Photo, "member");
+                return IsDeleted;
+
 
             }
             catch (Exception)
@@ -244,8 +263,5 @@ namespace GymSystemBLL.Services.Classes
         }
 
         #endregion
-
-
-
     }
 }

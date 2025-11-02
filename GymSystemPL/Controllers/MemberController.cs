@@ -1,5 +1,6 @@
 ﻿using GymSystemBLL.Services.Interfaces;
 using GymSystemBLL.ViewModels.MemberViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
