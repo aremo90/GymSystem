@@ -1,3 +1,17 @@
+using GymSystemBLL;
+using GymSystemBLL.Services.AttachmentService;
+using GymSystemBLL.Services.Classes;
+using GymSystemBLL.Services.Interfaces;
+using GymSystemDAL.Data.Context;
+using GymSystemDAL.Data.DataSeed;
+using GymSystemDAL.Models;
+using GymSystemDAL.Repositroies.Classes;
+using GymSystemDAL.Repositroies.Interfaces;
+using GymSystemPL.Controllers;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+
 namespace GymSystemPL
 {
     public class Program
@@ -9,7 +23,63 @@ namespace GymSystemPL
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            #region Dependency Injection
+            // make dbContext public to be used in other layers
+            builder.Services.AddDbContext<GymSystemDbContext>(options =>
+            {
+                //options.UseSqlServer(builder.Configuration.GetSection("ConnectionStrings")["DefaultConnection"]);
+                //options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]);
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
+
+
+            #endregion
+             
+            builder.Services.AddScoped(typeof(IGenericRepository<>) , typeof(GenericRepository<>));
+            builder.Services.AddScoped<IPlanRepoository, PlanRepository>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<ISessionRepoository, SessionRepoository>();
+            builder.Services.AddAutoMapper(X => X.AddProfile(new MappingProfiles()));
+            builder.Services.AddScoped<IMemberService, MemberService>();
+            builder.Services.AddScoped<ITrainerService, TrainerService>();
+            builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
+            builder.Services.AddScoped<IPlanService , PlanService>();
+            builder.Services.AddScoped<ISessionService , SessionService>();
+            builder.Services.AddScoped<IAttachmentService, AttachmentService>();
+            builder.Services.AddScoped<IAccountService , AccountService>();
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(Config =>
+            {
+                Config.Password.RequiredLength = 6;
+                Config.Password.RequireLowercase = true;
+                Config.Password.RequireUppercase = true;
+                Config.User.RequireUniqueEmail = true;
+            }).AddEntityFrameworkStores<GymSystemDbContext>();
+
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Account/Login";
+                options.AccessDeniedPath = "/Account/AccessDenied";
+
+            });
+
             var app = builder.Build();
+
+            #region Data Seeding
+
+            var scope = app.Services.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<GymSystemDbContext>();
+
+            var pendingMigrations = dbContext.Database.GetPendingMigrations();
+            if (pendingMigrations?.Any() ?? false)
+                dbContext.Database.Migrate();
+
+            GymDbContextSeeding.SeedData(dbContext);
+
+            var RoleManger = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var UserManger = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+            IdentityDbContextSeeding.SeedData(RoleManger, UserManger);
+            #endregion
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -23,11 +93,12 @@ namespace GymSystemPL
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}")
+                pattern: "{controller=Account}/{action=Login}/{id?}")
                 .WithStaticAssets();
 
             app.Run();
